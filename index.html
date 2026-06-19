@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#1a4854" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="БТКА 8.1" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <style>
+:root {
+  color: #ffffff;
+  background: #1a4854;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #1a4854;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+.app {
+  width: min(560px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: max(2px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+}
+
+.home {
+  display: block;
+  min-height: auto;
+}
+
+.home__hero {
+  position: relative;
+  height: 424px;
+  padding-top: 0;
+  overflow: visible;
+}
+
+.home__hero-block {
+  position: relative;
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding-top: 0;
+  overflow: visible;
+}
+
+.home__logo {
+  display: block;
+  width: 132px;
+  height: 132px;
+  margin: 0 auto 14px;
+  overflow: visible;
+}
+
+.home__logo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.home__logo-pyramid span {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+.home__logo-pyramid span:nth-child(1) {
+  left: calc(50% - 25px);
+  top: 182px;
+}
+
+.home__logo-pyramid span:nth-child(2) {
+  left: calc(50% - 8px);
+  top: 182px;
+}
+
+.home__logo-pyramid span:nth-child(3) {
+  left: calc(50% + 9px);
+  top: 182px;
+}
+
+.home__logo-pyramid span:nth-child(4) {
+  left: calc(50% - 16.5px);
+  top: 197px;
+}
+
+.home__logo-pyramid span:nth-child(5) {
+  left: calc(50% + .5px);
+  top: 197px;
+}
+
+.home__logo-pyramid span:nth-child(6) {
+  left: calc(50% - 8px);
+  top: 212px;
+}
+
+.home__tagline-outer {
+  position: relative;
+  width: 100%;
+  margin-top: 10px;
+  overflow: visible;
+}
+
+.home__tagline-slot {
+  position: relative;
+  min-height: 280px;
+  width: 100%;
+  padding-top: 28px;
+  padding-bottom: 40px;
+  overflow: visible;
+}
+
+.home__phrase {
+  position: absolute;
+  margin: 0;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 22px;
+  white-space: pre-wrap;
+}
+
+.home__phrase span {
+  display: block;
+}
+
+.home__phrase--one {
+  top: 80px;
+  right: calc(50% - 26px);
+  width: 190px;
+  text-align: left;
+  transform: rotate(45deg);
+  transform-origin: top right;
+}
+
+.home__phrase--two {
+  top: 56px;
+  left: calc(50% + 29px);
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transform: translate(-22px, 8px) rotate(-45deg);
+  transform-origin: bottom left;
+}
+
+.home__phrase2-line1 {
+  text-align: right;
+  white-space: pre;
+}
+
+.home__phrase2-line2 {
+  align-self: stretch;
+  text-align: left;
+  white-space: pre;
+}
+
+.home__intro {
+  margin-top: -162px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #c8e2e6;
+  font-size: 1.32rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.eyebrow--levels {
+  display: grid;
+  gap: 2px;
+  margin-top: -4px;
+  margin-bottom: 12px;
+  text-transform: none;
+}
+
+h1,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: #ffffff;
+  font-size: clamp(1.7rem, 7vw, 2.25rem);
+  line-height: 1.05;
+}
+
+p {
+  color: #dcecef;
+  line-height: 1.55;
+}
+
+code {
+  padding: 2px 5px;
+  border-radius: 6px;
+  color: #173c47;
+  background: #d8edf1;
+  font-size: 0.9em;
+}
+
+.platform-menu {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.platform-button {
+  display: grid;
+  width: 95%;
+  min-height: 64px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  border: 2px solid #bb20e8;
+  border-radius: 16px;
+  align-content: center;
+  gap: 4px;
+  color: #ffffff;
+  background: rgba(12, 36, 45, 0.58);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 120ms ease;
+}
+
+.platform-button span {
+  font-size: 1.18rem;
+  font-weight: 700;
+}
+
+.platform-button small {
+  color: #dcecef;
+  font-size: 0.86rem;
+  line-height: 1.3;
+}
+
+.platform-button:hover,
+.platform-button:focus,
+.platform-button:focus-visible,
+.platform-button:active:not(:disabled) {
+  border-color: #0ab10a;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.platform-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.platform-button:disabled,
+.platform-button--pending {
+  opacity: 0.58;
+  cursor: not-allowed;
+}
+
+.ios-panel {
+  display: grid;
+  gap: 10px;
+  max-height: 0;
+  padding: 0 12px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.14);
+  opacity: 0;
+  transition:
+    max-height 220ms ease,
+    padding 220ms ease,
+    opacity 180ms ease;
+}
+
+.ios-panel--open {
+  max-height: 420px;
+  padding: 12px;
+  border-radius: 16px;
+  opacity: 1;
+}
+
+.ios-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #ffffff;
+}
+
+.ios-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: #173c47;
+  background: #d8edf1;
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.status-pill--ok {
+  color: #103818;
+  background: #baf4c8;
+}
+
+.status-pill--warn {
+  color: #442d00;
+  background: #ffe0a3;
+}
+
+.status-pill--bad {
+  color: #4b1111;
+  background: #ffd0d0;
+}
+
+.status-pill--info {
+  color: #173c47;
+  background: #c8e2e6;
+}
+
+.progress {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.progress__bar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0ab10a, #9cec9c);
+  transition: width 180ms ease;
+}
+
+.hint {
+  margin-bottom: 0;
+  padding: 10px 12px;
+  border-radius: 14px;
+  color: #173c47;
+  background: #d8edf1;
+  font-size: 0.92rem;
+}
+
+.prepare-status {
+  min-height: 24px;
+  margin-bottom: 0;
+  font-size: 0.92rem;
+}
+
+.prepare-status--error {
+  color: #ffd6d6;
+}
+
+.prepare-status--ready {
+  color: #baf4c8;
+}
+
+.ios-next-step {
+  margin-bottom: 0;
+  color: #dcecef;
+  font-size: 0.9rem;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  justify-content: space-between;
+  padding-top: 16px;
+  color: #a9d7df;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 420px) {
+  .home__hero {
+    height: 382px;
+  }
+
+  .home__intro {
+    margin-top: -148px;
+  }
+
+}
+
+    </style>
+    <title>БТКА 8.1 Web</title>
+  </head>
+  <body>
+    <div id="root">
+      <main class="app">
+        <section class="home" aria-labelledby="app-title">
+          <div class="home__hero" aria-label="Бильярдный Тренировочный Комплекс Абриколь">
+            <div class="home__hero-block">
+              <div class="home__logo" role="img" aria-label="Логотип БТКА"><svg xmlns="http://www.w3.org/2000/svg" width="264" height="264" viewBox="0 0 264 264" aria-hidden="true"><image width="264" height="264" href="data:image/png;base64,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" /></svg></div>
+              <div class="home__logo-pyramid" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="home__tagline-outer">
+                <div class="home__tagline-slot">
+                  <p class="home__phrase home__phrase--one"> Бильярдный
+Тренировочный</p>
+                  <div class="home__phrase home__phrase--two">
+                    <span class="home__phrase2-line1">Комплекс</span>
+                    <span class="home__phrase2-line2">            Абриколь</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="home__intro">
+            <p class="eyebrow">Система тренировок БТКА 8.1</p>
+            <p class="eyebrow eyebrow--levels">
+              <span>|&nbsp;&nbsp;Уровень 1 - Начальный&nbsp;&nbsp;|</span>
+              <span>|&nbsp;&nbsp;Уровень 2 - Базовый&nbsp;&nbsp;|</span>
+            </p>
+            <h1 id="app-title">Выберите вариант загрузки</h1>
+            <p>
+              Для Android и Windows будет скачан дистрибутив. Для iPhone и iPad приложение подготовит данные на
+              устройстве, чтобы дальше работать без сети.
+            </p>
+          </div>
+
+          <nav class="platform-menu" aria-label="Выбор платформы">
+            <button id="btca-static-ios" class="platform-button platform-button--ios" type="button">
+              <span>iOS</span>
+              <small>Загрузить все данные для offline</small>
+            </button>
+            <a class="platform-button platform-button--android" href="https://clc.li/btca-android-8-1">
+              <span>Android</span>
+              <small>Скачать дистрибутив APK</small>
+            </a>
+            <a class="platform-button platform-button--windows" href="https://clc.li/btca-windows-8-1">
+              <span>Windows</span>
+              <small>Скачать дистрибутив EXE</small>
+            </a>
+          </nav>
+
+          <section id="btca-static-ios-panel" class="ios-panel" aria-label="Подготовка iOS/iPadOS">
+            <div class="ios-panel__header"><strong>iOS/iPadOS</strong></div>
+            <p class="hint">Стартовая страница загружена. Подготовка offline-пакета будет подключена следующим шагом.</p>
+          </section>
+        </section>
+
+        <footer class="footer">
+          <span>BTCA-Web v.8.1</span>
+          <span>© 2026 Alint&apos;s R.lab</span>
+        </footer>
+      </main>
+    </div>
+    <script>
+      (function () {
+        var button = document.getElementById("btca-static-ios");
+        var panel = document.getElementById("btca-static-ios-panel");
+        if (!button || !panel) return;
+
+        button.addEventListener("click", function () {
+          window.setTimeout(function () {
+            if (window.__BTCA_IOS_INSTALLER_READY__) return;
+            panel.className = "ios-panel ios-panel--open";
+            panel.innerHTML =
+              '<div class="ios-panel__header"><strong>iOS/iPadOS</strong></div>' +
+              '<p class="prepare-status prepare-status--error">Скрипт подготовки offline не загрузился. Обновите хостинг из свежей папки dist и перезагрузите страницу в Safari.</p>';
+          }, 600);
+        });
+      })();
+    </script>
+    <script>
+(function () {
+  "use strict";
+
+  var INSTALL_CACHE = "btca-web-8.1.20:static-install";
+  var MEDIA_CACHE = "btca-web-8.1.20:static-media";
+  var MEDIA_STATE_KEY = "btca-web:static-media-state";
+  var IMAGE_RE = /\.(jpe?g|png|gif|webp|bmp|avif)$/i;
+
+  var CORE_ASSETS = [
+    "/",
+    "/offline/app-shell.json",
+    "/offline/media/manifest.json",
+    "/vendor/zip.min.js",
+  ];
+
+  function getEls() {
+    return {
+      button: document.getElementById("btca-static-ios"),
+      panel: document.getElementById("btca-static-ios-panel"),
+    };
+  }
+
+  function isAppleMobile() {
+    var ua = navigator.userAgent || "";
+    var iPadDesktopMode = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+    return /iPhone|iPad|iPod/.test(ua) || iPadDesktopMode;
+  }
+
+  function isDebugAppleMode() {
+    return new URLSearchParams(window.location.search).get("debugApple") === "1";
+  }
+
+  function isStandalone() {
+    return window.matchMedia("(display-mode: standalone)").matches || Boolean(navigator.standalone);
+  }
+
+  function setPanel(html) {
+    var panel = getEls().panel;
+    if (!panel) return;
+    panel.className = "ios-panel ios-panel--open";
+    panel.innerHTML = html;
+    if (panel.scrollIntoView) {
+      panel.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function renderProgress(title, percent, message) {
+    setPanel(
+      '<div class="ios-panel__header"><strong>' + escapeHtml(title) + "</strong><span>" + Math.round(percent) + "%</span></div>" +
+      '<div class="progress" aria-label="Прогресс offline-подготовки"><div class="progress__bar" style="width:' + Math.max(0, Math.min(100, percent)) + '%"></div></div>' +
+      '<p class="prepare-status prepare-status--running">' + escapeHtml(message) + "</p>"
+    );
+  }
+
+  function renderInfo(title, message) {
+    setPanel(
+      '<div class="ios-panel__header"><strong>' + escapeHtml(title) + "</strong></div>" +
+      '<p class="hint">' + escapeHtml(message) + "</p>"
+    );
+  }
+
+  function renderReady() {
+    var hint = isStandalone()
+      ? "Offline-пакет подготовлен. Приложение уже открыто с экрана Домой."
+      : "Offline-пакет подготовлен. В Safari нажмите «Поделиться» и выберите «На экран Домой».";
+    setPanel(
+      '<div class="ios-panel__header"><strong>iOS/iPadOS</strong><span>100%</span></div>' +
+      '<div class="progress" aria-label="Прогресс offline-подготовки"><div class="progress__bar" style="width:100%"></div></div>' +
+      '<p class="prepare-status prepare-status--ready">Готово для offline.</p>' +
+      '<p class="hint">' + escapeHtml(hint) + "</p>"
+    );
+  }
+
+  function renderError(error) {
+    setPanel(
+      '<div class="ios-panel__header"><strong>Ошибка iOS/iPadOS</strong></div>' +
+      '<p class="prepare-status prepare-status--error">' + escapeHtml(error && (error.message || error)) + "</p>"
+    );
+  }
+
+  function setButtonState(isRunning, label) {
+    var button = getEls().button;
+    if (!button) return;
+    button.disabled = isRunning;
+    button.className = isRunning
+      ? "platform-button platform-button--ios platform-button--pending"
+      : "platform-button platform-button--ios";
+
+    var small = button.querySelector("small");
+    if (small) small.textContent = label;
+  }
+
+  function withTimeout(promise, ms, message) {
+    var timeoutId;
+    var timeout = new Promise(function (_, reject) {
+      timeoutId = window.setTimeout(function () {
+        reject(new Error(message));
+      }, ms);
+    });
+
+    return Promise.race([promise, timeout]).then(function (result) {
+      window.clearTimeout(timeoutId);
+      return result;
+    }, function (error) {
+      window.clearTimeout(timeoutId);
+      throw error;
+    });
+  }
+
+  function loadZipLibrary() {
+    if (window.zip && window.zip.ZipReader) return Promise.resolve();
+
+    return new Promise(function (resolve, reject) {
+      var script = document.createElement("script");
+      script.src = "/vendor/zip.min.js";
+      script.onload = function () {
+        if (window.zip && window.zip.ZipReader) {
+          if (window.zip.configure) window.zip.configure({ useWebWorkers: false });
+          resolve();
+        }
+        else reject(new Error("zip.js загрузился, но API недоступен"));
+      };
+      script.onerror = function () {
+        reject(new Error("Не удалось загрузить zip.js"));
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  function cacheCoreAssets() {
+    return caches.open(INSTALL_CACHE).then(function (cache) {
+      var documentAssets = Array.prototype.slice
+        .call(document.querySelectorAll("script[src], link[rel='stylesheet'][href], link[rel='modulepreload'][href]"))
+        .map(function (element) {
+          return element.src || element.href;
+        })
+        .filter(Boolean)
+        .map(function (assetUrl) {
+          var url = new URL(assetUrl, window.location.origin);
+          return url.origin === window.location.origin ? url.pathname + url.search : null;
+        })
+        .filter(Boolean);
+      var allAssets = Array.from(new Set(CORE_ASSETS.concat(documentAssets)));
+
+      return allAssets.reduce(function (promise, asset, index) {
+        return promise.then(function () {
+          renderProgress("Подготовка iOS/iPadOS", 8 + (index / allAssets.length) * 30, "Загрузка оболочки: " + asset);
+          return cache.add(asset);
+        });
+      }, Promise.resolve());
+    });
+  }
+
+  function contentTypeFor(path) {
+    var lower = path.toLowerCase();
+    if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "image/jpeg";
+    if (lower.endsWith(".png")) return "image/png";
+    if (lower.endsWith(".gif")) return "image/gif";
+    if (lower.endsWith(".webp")) return "image/webp";
+    if (lower.endsWith(".avif")) return "image/avif";
+    if (lower.endsWith(".json")) return "application/json; charset=utf-8";
+    return "application/octet-stream";
+  }
+
+  function safeEntryPath(filename) {
+    var entryPath = String(filename || "").replace(/\\/g, "/");
+    if (!entryPath || entryPath.indexOf("..") >= 0 || entryPath.charAt(0) === "/") return null;
+    return entryPath.split("/").filter(Boolean).join("/");
+  }
+
+  function unpackZipToCache(blob, pack, password, cache, progressBase, progressShare) {
+    var reader = new window.zip.ZipReader(new window.zip.BlobReader(blob), password ? { password: password } : {});
+    return reader.getEntries().then(function (entries) {
+      var files = entries.filter(function (entry) { return !entry.directory; });
+      var images = files.filter(function (entry) { return IMAGE_RE.test(safeEntryPath(entry.filename) || ""); });
+      var imageCount = 0;
+
+      return files.reduce(function (promise, entry) {
+        return promise.then(function () {
+          var entryPath = safeEntryPath(entry.filename);
+          if (!entryPath) return;
+
+          return entry.getData(new window.zip.BlobWriter(contentTypeFor(entryPath)), password ? { password: password } : {}).then(function (output) {
+            return cache.put(
+              "/offline-unpacked/" + pack.id + "/" + entryPath,
+              new Response(output, { headers: { "Content-Type": contentTypeFor(entryPath) } })
+            ).then(function () {
+              if (IMAGE_RE.test(entryPath)) {
+                imageCount += 1;
+                renderProgress(
+                  "Подготовка iOS/iPadOS",
+                  progressBase + Math.min(0.95, imageCount / Math.max(1, images.length)) * progressShare,
+                  "Распаковка " + pack.id + ": " + imageCount + "/" + images.length
+                );
+              }
+            });
+          });
+        });
+      }, Promise.resolve()).then(function () {
+        return reader.close().then(function () {
+          return { files: files.length, images: imageCount };
+        });
+      });
+    }).catch(function (error) {
+      return reader.close().catch(function () {}).then(function () {
+        throw error;
+      });
+    });
+  }
+
+  function prepareMediaArchives() {
+    return fetch("/offline/media/manifest.json", { cache: "no-store" })
+      .then(function (response) {
+        if (!response.ok) throw new Error("Не найден media manifest: " + response.status);
+        return response.json();
+      })
+      .then(function (manifest) {
+        if (!manifest.packs || !manifest.packs.length) return;
+
+        return loadZipLibrary().then(function () {
+          return caches.open(MEDIA_CACHE).then(function (cache) {
+            var preparedFiles = {};
+            var packShare = 58 / manifest.packs.length;
+
+            return manifest.packs.reduce(function (promise, pack, index) {
+              return promise.then(function () {
+                var base = 38 + index * packShare;
+                renderProgress("Подготовка iOS/iPadOS", base, "Загрузка " + pack.id + "/media.btca.zip");
+                return fetch(pack.zipUrl, { cache: "no-store" }).then(function (response) {
+                  if (!response.ok) throw new Error("Не удалось загрузить " + pack.zipUrl + ": " + response.status);
+                  return response.blob();
+                }).then(function (blob) {
+                  return cache.put(pack.zipUrl, new Response(blob.slice(0, blob.size), {
+                    headers: { "Content-Type": "application/zip" },
+                  })).then(function () {
+                    return unpackZipToCache(blob, pack, manifest.password, cache, base, packShare);
+                  });
+                }).then(function (result) {
+                  preparedFiles[pack.id] = result.images;
+                });
+              });
+            }, Promise.resolve()).then(function () {
+              localStorage.setItem(MEDIA_STATE_KEY, JSON.stringify({
+                version: manifest.version,
+                preparedAt: new Date().toISOString(),
+                files: preparedFiles,
+              }));
+            });
+          });
+        });
+      });
+  }
+
+  function prepareOffline() {
+    if (!isAppleMobile() && !isDebugAppleMode()) {
+      renderInfo("iOS/iPadOS", "Вы открыли страницу не на устройстве Apple. Для iOS/iPadOS откройте эту ссылку в Safari на iPhone или iPad.");
+      return;
+    }
+
+    if (!window.isSecureContext) {
+      renderInfo("iOS/iPadOS", "Для подготовки offline-пакета откройте страницу через HTTPS.");
+      return;
+    }
+
+    if (!("serviceWorker" in navigator) || !("caches" in window)) {
+      renderInfo("iOS/iPadOS", "Этот браузер не поддерживает PWA offline-кэш.");
+      return;
+    }
+
+    setButtonState(true, "Подготовка offline...");
+
+    renderProgress("Подготовка iOS/iPadOS", 1, "Регистрация offline-службы...");
+    withTimeout(
+      navigator.serviceWorker.register("/sw.js")
+        .then(function () { return navigator.serviceWorker.ready; }),
+      12000,
+      "Safari не завершил регистрацию offline-службы. Обновите страницу и попробуйте ещё раз."
+    )
+      .then(cacheCoreAssets)
+      .then(prepareMediaArchives)
+      .then(renderReady)
+      .catch(renderError)
+      .then(function () {
+        setButtonState(false, "Загрузить все данные для offline");
+      });
+  }
+
+  function init() {
+    var els = getEls();
+    if (!els.button) return;
+    window.__BTCA_IOS_INSTALLER_READY__ = true;
+    els.button.addEventListener("click", prepareOffline);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+
+    </script>
+  </body>
+</html>
