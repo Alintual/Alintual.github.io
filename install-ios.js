@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  var INSTALL_CACHE = "btca-web-8.1.31:static-install";
-  var MEDIA_CACHE = "btca-web-8.1.31:static-media";
+  var INSTALL_CACHE = "btca-web-8.1.32:static-install";
+  var MEDIA_CACHE = "btca-web-8.1.32:static-media";
   var MEDIA_STATE_KEY = "btca-web:static-media-state";
   var IMAGE_RE = /\.(jpe?g|png|gif|webp|bmp|avif)$/i;
   var ABOUT_HEADING = "ПРОЕКТ BTCA-mobile v.8.1";
@@ -82,15 +82,39 @@
   }
 
   function updateForcedPortraitLayout() {
+    var root = document.getElementById("root");
     var viewport = window.visualViewport;
     var width = Math.round((viewport && viewport.width) || window.innerWidth || document.documentElement.clientWidth || 0);
     var height = Math.round((viewport && viewport.height) || window.innerHeight || document.documentElement.clientHeight || 0);
-    if (!width || !height) return;
+    if (!root || !width || !height) return;
 
     document.documentElement.style.setProperty("--btca-viewport-width", width + "px");
     document.documentElement.style.setProperty("--btca-viewport-height", height + "px");
     var isLandscape = width > height;
     document.body.classList.toggle("btca-force-portrait", isLandscape);
+    if (!isLandscape || document.body.classList.contains("btca-allow-landscape")) {
+      root.style.top = "";
+      root.style.left = "";
+      root.style.transform = "";
+      return;
+    }
+
+    var angle = 0;
+    if (typeof window.orientation === "number") {
+      angle = window.orientation;
+    } else if (screen && screen.orientation && typeof screen.orientation.angle === "number") {
+      angle = screen.orientation.angle;
+    }
+    var normalizedAngle = ((angle % 360) + 360) % 360;
+    if (normalizedAngle === 270) {
+      root.style.top = "0px";
+      root.style.left = width + "px";
+      root.style.transform = "rotate(90deg)";
+    } else {
+      root.style.top = height + "px";
+      root.style.left = "0px";
+      root.style.transform = "rotate(-90deg)";
+    }
   }
 
   function syncPortraitMode() {
