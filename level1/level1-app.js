@@ -2,7 +2,7 @@
   "use strict";
 
   var DB = window.BTCA_LEVEL1_DB;
-  var VERSION = "8.1.35";
+  var VERSION = "8.1.36";
   var FORMA_BANNER = "Цель - результативность не менее 70 %";
   var NAV_FILTER_ALL = "all";
   var POLEZ_ALL = "all";
@@ -15,6 +15,9 @@
     { key: "nav", label: "Упражнения", title: "Упражнения", emoji: "🔎" },
     { key: "polez", label: "Полезности", title: "Полезности", emoji: "📚" },
   ];
+
+  var bootPromise = null;
+  var booted = false;
 
   var state = {
     root: null,
@@ -813,12 +816,28 @@
     }
   }
 
+  function fetchJsonCached(url) {
+    if ("caches" in window) {
+      return caches.match(url).then(function (cached) {
+        if (cached) return cached.json();
+        return fetch(url).then(function (response) {
+          if (!response.ok) throw new Error("Не удалось загрузить " + url);
+          return response.json();
+        });
+      });
+    }
+    return fetch(url).then(function (response) {
+      if (!response.ok) throw new Error("Не удалось загрузить " + url);
+      return response.json();
+    });
+  }
+
   function loadData() {
     return Promise.all([
-      fetch("/level1/data/forma_exercise_list.json").then(function (r) { return r.json(); }),
-      fetch("/level1/data/polezCatalog.json").then(function (r) { return r.json(); }),
-      fetch("/level1/data/polezLinks.json").then(function (r) { return r.json(); }),
-      fetch("/level1/data/polezDescriptions.json").then(function (r) { return r.json(); }),
+      fetchJsonCached("/level1/data/forma_exercise_list.json"),
+      fetchJsonCached("/level1/data/polezCatalog.json"),
+      fetchJsonCached("/level1/data/polezLinks.json"),
+      fetchJsonCached("/level1/data/polezDescriptions.json"),
     ]).then(function (parts) {
       var list = parts[0];
       state.data.exercises = list.map(function (r) {
@@ -835,49 +854,46 @@
     });
   }
 
-  function loadScript(src) {
-    return new Promise(function (resolve, reject) {
-      if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
-      var s = document.createElement("script");
-      s.src = src;
-      s.onload = resolve;
-      s.onerror = function () { reject(new Error("Script load failed: " + src)); };
-      document.head.appendChild(s);
-    });
-  }
-
-  function ensureReady() {
-    return loadScript("/level1/level1-db.js?v=" + VERSION).then(function () {
-      DB = window.BTCA_LEVEL1_DB;
-      return loadData();
-    }).then(function () {
+  function boot() {
+    if (booted) return Promise.resolve({ ui: state.ui, data: state.data });
+    if (bootPromise) return bootPromise;
+    DB = window.BTCA_LEVEL1_DB;
+    if (!DB) {
+      return Promise.reject(new Error("Модуль базы данных не загружен"));
+    }
+    bootPromise = loadData().then(function () {
       return DB.loadUiState();
+    }).then(function (ui) {
+      state.ui = ui;
+      booted = true;
+      return { ui: state.ui, data: state.data };
     });
+    return bootPromise;
   }
 
   function mount(rootEl, hooks) {
     state.root = rootEl;
     state.mounted = true;
-    return ensureReady().then(function (ui) {
-      state.ui = ui;
-      state.formaFlags = {};
-      return refreshBazaStats().then(function () {
-        return refreshBazaRows();
-      }).then(function () {
-        renderTitleBar();
-        renderActiveTab();
-        var menuBtn = rootEl.querySelector("[data-btca-level1-menu]");
-        var menuLayer = rootEl.querySelector("[data-btca-level1-menu-layer]");
-        if (menuBtn) menuBtn.addEventListener("click", function () { renderSheetMenu(true); });
-        if (menuLayer) {
-          menuLayer.addEventListener("click", function (event) {
-            if (event.target.closest("[data-btca-level1-menu-close]")) { renderSheetMenu(false); return; }
-            var item = event.target.closest("[data-btca-level1-sheet]");
-            if (item) setSheet(item.getAttribute("data-btca-level1-sheet"));
-          });
-        }
-        if (hooks && hooks.onReady) hooks.onReady();
-      });
+    state.formaFlags = {};
+    if (!booted) {
+      return Promise.reject(new Error("Приложение ещё не завершило загрузку. Перезапустите."));
+    }
+    return refreshBazaStats().then(function () {
+      return refreshBazaRows();
+    }).then(function () {
+      renderTitleBar();
+      renderActiveTab();
+      var menuBtn = rootEl.querySelector("[data-btca-level1-menu]");
+      var menuLayer = rootEl.querySelector("[data-btca-level1-menu-layer]");
+      if (menuBtn) menuBtn.addEventListener("click", function () { renderSheetMenu(true); });
+      if (menuLayer) {
+        menuLayer.addEventListener("click", function (event) {
+          if (event.target.closest("[data-btca-level1-menu-close]")) { renderSheetMenu(false); return; }
+          var item = event.target.closest("[data-btca-level1-sheet]");
+          if (item) setSheet(item.getAttribute("data-btca-level1-sheet"));
+        });
+      }
+      if (hooks && hooks.onReady) hooks.onReady();
     });
   }
 
@@ -889,6 +905,7 @@
 
   window.BTCA_LEVEL1 = {
     VERSION: VERSION,
+    boot: boot,
     mount: mount,
     unmount: unmount,
     setSheet: setSheet,
