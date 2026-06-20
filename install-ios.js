@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  var INSTALL_CACHE = "btca-web-8.1.27:static-install";
-  var MEDIA_CACHE = "btca-web-8.1.27:static-media";
+  var INSTALL_CACHE = "btca-web-8.1.28:static-install";
+  var MEDIA_CACHE = "btca-web-8.1.28:static-media";
   var MEDIA_STATE_KEY = "btca-web:static-media-state";
   var IMAGE_RE = /\.(jpe?g|png|gif|webp|bmp|avif)$/i;
   var ABOUT_HEADING = "ПРОЕКТ BTCA-mobile v.8.1";

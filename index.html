@@ -556,14 +556,25 @@ code {
 
 @media (orientation: landscape) {
   body:not(.btca-allow-landscape) {
+    width: 100vw;
+    height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   body:not(.btca-allow-landscape) #root {
+    position: fixed;
+    top: 0;
+    left: 100vw;
     width: 100vh;
+    height: 100vw;
     max-width: 100vh;
-    min-height: 100vw;
-    margin: 0 auto;
+    max-height: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transform: rotate(90deg);
+    transform-origin: top left;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -665,8 +676,8 @@ code {
 (function () {
   "use strict";
 
-  var INSTALL_CACHE = "btca-web-8.1.27:static-install";
-  var MEDIA_CACHE = "btca-web-8.1.27:static-media";
+  var INSTALL_CACHE = "btca-web-8.1.28:static-install";
+  var MEDIA_CACHE = "btca-web-8.1.28:static-media";
   var MEDIA_STATE_KEY = "btca-web:static-media-state";
   var IMAGE_RE = /\.(jpe?g|png|gif|webp|bmp|avif)$/i;
   var ABOUT_HEADING = "ПРОЕКТ BTCA-mobile v.8.1";
