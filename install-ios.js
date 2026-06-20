@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  var INSTALL_CACHE = "btca-web-8.1.33:static-install";
-  var MEDIA_CACHE = "btca-web-8.1.33:static-media";
+  var INSTALL_CACHE = "btca-web-8.1.34:static-install";
+  var MEDIA_CACHE = "btca-web-8.1.34:static-media";
   var MEDIA_STATE_KEY = "btca-web:static-media-state";
   var IMAGE_RE = /\.(jpe?g|png|gif|webp|bmp|avif)$/i;
   var ABOUT_HEADING = "ПРОЕКТ BTCA-mobile v.8.1";
@@ -339,6 +339,23 @@
         if (item) setLevel1Sheet(item.getAttribute("data-btca-level1-sheet"));
       });
     }
+    syncPortraitMode();
+  }
+
+  function handleAppNavigation(event) {
+    var target = event.target && event.target.closest ? event.target.closest("[data-btca-route]") : null;
+    if (!target || !document.body.classList.contains("btca-installed-mode")) return;
+    event.preventDefault();
+    var route = target.getAttribute("data-btca-route");
+    if (route === "level1") {
+      try {
+        renderLevel1Screen();
+      } catch (error) {
+        console.error("BTCA Level 1 open failed", error);
+      }
+      return;
+    }
+    if (route === "about") renderAboutScreen();
   }
 
   function renderInstalledHome() {
@@ -362,20 +379,11 @@
         '<button class="platform-button btca-work-menu__item btca-work-menu__item--level1" type="button" data-btca-route="level1"><span>Уровень 1 — Начальный</span></button>' +
         '<button class="platform-button btca-work-menu__item btca-work-menu__item--level2" type="button" data-btca-route="level2"><span>Уровень 2 — Базовый</span></button>' +
         '<button class="platform-button btca-work-menu__item btca-work-menu__item--about" type="button" data-btca-route="about"><span>О проекте</span></button>';
-      menu.addEventListener("click", function (event) {
-        var target = event.target && event.target.closest ? event.target.closest("[data-btca-route]") : null;
-        if (!target) return;
-        var route = target.getAttribute("data-btca-route");
-        if (route === "level1") {
-          renderLevel1Screen();
-          return;
-        }
-        if (route === "about") renderAboutScreen();
-      });
     }
     if (footer) {
       footer.innerHTML = "<span>BTCA-mobile v.8.1 © 2026 Alint&apos;s R.lab</span>";
     }
+    syncPortraitMode();
   }
 
   function renderError(error) {
@@ -594,7 +602,6 @@
 
   function init() {
     var els = getEls();
-    if (!els.button) return;
     window.__BTCA_IOS_INSTALLER_READY__ = true;
     syncPortraitMode();
     window.addEventListener("orientationchange", syncPortraitMode);
@@ -603,9 +610,14 @@
       window.visualViewport.addEventListener("resize", syncPortraitMode);
       window.visualViewport.addEventListener("scroll", syncPortraitMode);
     }
-    els.button.addEventListener("click", prepareOffline);
+    document.addEventListener("click", handleAppNavigation, true);
+    if (els.button) {
+      els.button.addEventListener("click", prepareOffline);
+    }
     if (isStandalone()) {
       renderInstalledHome();
+    } else if (!els.button) {
+      return;
     }
   }
 
