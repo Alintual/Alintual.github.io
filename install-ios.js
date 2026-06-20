@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  var INSTALL_CACHE = "btca-web-8.1.24:static-install";
-  var MEDIA_CACHE = "btca-web-8.1.24:static-media";
+  var INSTALL_CACHE = "btca-web-8.1.26:static-install";
+  var MEDIA_CACHE = "btca-web-8.1.26:static-media";
   var MEDIA_STATE_KEY = "btca-web:static-media-state";
   var IMAGE_RE = /\.(jpe?g|png|gif|webp|bmp|avif)$/i;
   var ABOUT_HEADING = "ПРОЕКТ BTCA-mobile v.8.1";
@@ -136,7 +136,7 @@
     root.innerHTML =
       '<main class="btca-about-screen">' +
       '<header class="btca-screen-header">' +
-      '<button class="btca-back-button" type="button" data-btca-back aria-label="Назад">‹</button>' +
+      '<button class="btca-back-button" type="button" data-btca-back aria-label="Назад">←</button>' +
       '<strong>О проекте</strong>' +
       '<span aria-hidden="true"></span>' +
       "</header>" +
@@ -155,10 +155,6 @@
         renderInstalledHome();
       });
     }
-  }
-
-  function closePwa() {
-    window.close();
   }
 
   function renderInstalledHome() {
@@ -181,16 +177,11 @@
       menu.innerHTML =
         '<button class="platform-button btca-work-menu__item btca-work-menu__item--level1" type="button" data-btca-route="level1"><span>Уровень 1 — Начальный</span></button>' +
         '<button class="platform-button btca-work-menu__item btca-work-menu__item--level2" type="button" data-btca-route="level2"><span>Уровень 2 — Базовый</span></button>' +
-        '<button class="platform-button btca-work-menu__item btca-work-menu__item--about" type="button" data-btca-route="about"><span>О проекте</span></button>' +
-        '<button class="btca-work-menu__close" type="button" data-btca-route="close">Закрыть</button>';
+        '<button class="platform-button btca-work-menu__item btca-work-menu__item--about" type="button" data-btca-route="about"><span>О проекте</span></button>';
       menu.addEventListener("click", function (event) {
         var target = event.target && event.target.closest ? event.target.closest("[data-btca-route]") : null;
         if (!target) return;
         var route = target.getAttribute("data-btca-route");
-        if (route === "close") {
-          closePwa();
-          return;
-        }
         if (route === "about") renderAboutScreen();
       });
     }
